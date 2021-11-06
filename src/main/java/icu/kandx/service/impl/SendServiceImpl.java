@@ -3,7 +3,7 @@ package icu.kandx.service.impl;
 import cn.hutool.core.date.DateTime;
 import icu.kandx.api.APIUtil;
 import icu.kandx.entity.MessageDTO;
-import icu.kandx.entity.MessageMedal;
+import icu.kandx.entity.MessageModel;
 import icu.kandx.entity.weather.WeatherEntity;
 import icu.kandx.service.SendService;
 import icu.kandx.util.DateUtils;
@@ -37,7 +37,7 @@ public class SendServiceImpl implements SendService {
 
     @Override
     public void sendWeatherMsg() {
-        String weatherMedal = MessageMedal.WEATHER_MEDAL;
+        String weatherMedal = MessageModel.WEATHER_MODEL;
         WeatherEntity weatherInfo = apiUtil.getWeatherInfo(weatherUrl);
         if (weatherInfo == null) {
             log.error("[SendService]: getWeatherInfo failed");
@@ -53,7 +53,7 @@ public class SendServiceImpl implements SendService {
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setTitle("晓可爱的天气提醒");
         messageDTO.setDesp(weatherMsg);
-        messageDTO.setOpenid(testOpenId);
+        messageDTO.setOpenid(openId);
         apiUtil.sendMessage(sendUrl, messageDTO);
     }
 
@@ -62,12 +62,41 @@ public class SendServiceImpl implements SendService {
      */
     @Override
     public void sendWageMsg() {
-        String wageMedal = MessageMedal.WAGE_MEDAL;
+        String wageMedal = MessageModel.WAGE_MODEL;
         String wageMsg = String.format(wageMedal, new DateTime().toDateStr());
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setTitle("工资单");
-        messageDTO.setOpenid(testOpenId);
+        messageDTO.setOpenid(openId);
         messageDTO.setDesp(wageMsg);
+        apiUtil.sendMessage(sendUrl, messageDTO);
+    }
+
+    /**
+     * 发送生日提醒
+     */
+    @Override
+    public void sendBirthDayMsg() {
+        DateTime current = new DateTime();
+        int num = current.year() - 1999;
+        String birthdayModel = MessageModel.BIRTHDAY_MODEL;
+        String birthDayMsg = String.format(birthdayModel, num);
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setTitle("生日提醒");
+        messageDTO.setOpenid(openId);
+        messageDTO.setDesp(birthDayMsg);
+        apiUtil.sendMessage(sendUrl, messageDTO);
+    }
+
+    /**
+     * 发送睡觉提醒
+     */
+    @Override
+    public void sendSleepMsg() {
+        String hintSleepModel = MessageModel.HINT_SLEEP_MODEL;
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setTitle("睡觉觉提醒");
+        messageDTO.setOpenid(openId);
+        messageDTO.setDesp(hintSleepModel);
         apiUtil.sendMessage(sendUrl, messageDTO);
     }
 }

@@ -51,7 +51,7 @@ public class MainApplicationTests {
 
     @Test
     public void sendMsg() {
-        service.sendWageMsg();
+        //service.sendBirthDayMsg();
     }
 
     @Test

@@ -30,4 +30,14 @@ public class GirlFriendTask {
             service.sendWageMsg();
         }
     }
+
+    @Scheduled(cron = "0 0 23 * * ?")
+    public void sendSleep() {
+        service.sendSleepMsg();
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void sendBirthday() {
+        service.sendBirthDayMsg();
+    }
 }
