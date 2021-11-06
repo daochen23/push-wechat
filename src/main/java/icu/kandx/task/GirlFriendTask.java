@@ -38,6 +38,8 @@ public class GirlFriendTask {
 
     @Scheduled(cron = "0 0 0 * * ?")
     public void sendBirthday() {
-        service.sendBirthDayMsg();
+        if (DateUtils.getLimitBirthday() == 0) {
+            service.sendBirthDayMsg();
+        }
     }
 }
