@@ -1,0 +1,13 @@
+# 天气
+weather:
+  appid: 71762167
+  appsecret: HStezQb4
+  city: 新郑
+  url: https://tianqiapi.com/api?appid=${weather.appid}&appsecret=${weather.appsecret}&city=${weather.city}
+
+# server酱
+server:
+  sendKey: SCT78623Trf7qDygXpJPCb1XV7TbpCFjM
+  sendUrl: https://sctapi.ftqq.com/${server.sendKey}.send
+  openId: KouShaoDi|QiJiu
+  testOpenId: KouShaoDi
