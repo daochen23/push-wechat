@@ -47,7 +47,7 @@ public class SendServiceImpl implements SendService {
         String dateTime = dataDTO.getDate() + ", " + dataDTO.getWeek();
         String weatherMsg = String.format(weatherMedal, dateTime, DateUtils.getLoveDay(), DateUtils.getLimitBirthday(),
                 DateUtils.getLimitLoveDay().get(0), DateUtils.getLimitLoveDay().get(1), DateUtils.getLimitWageDay(), weatherInfo.getCity(), dataDTO.getWea(), dataDTO.getWeaDay(),
-                dataDTO.getWeaNight(), dataDTO.getTem1(), dataDTO.getTem2(), dataDTO.getIndex().get(0).getLevel(),
+                dataDTO.getWeaNight(), dataDTO.getTem2(), dataDTO.getTem1(), dataDTO.getIndex().get(0).getLevel(),
                 dataDTO.getIndex().get(3).getLevel(), dataDTO.getAirLevel());
         log.info("weatherInfo: {}", weatherMsg);
         MessageDTO messageDTO = new MessageDTO();
