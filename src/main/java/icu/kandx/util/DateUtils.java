@@ -13,13 +13,12 @@ import java.util.List;
  * @Date 2021/11/6 13:43
  */
 public class DateUtils {
-    private static DateTime current = new DateTime();
-
     /**
      * 在一起多少天
      * @return
      */
     public static long getLoveDay() {
+        DateTime current = new DateTime();
         return DateUtil.betweenDay(DateUtil.parse("2020-12-12 00:00:00"), current, Boolean.TRUE);
     }
 
@@ -28,6 +27,7 @@ public class DateUtils {
      * @return
      */
     public static List<Integer> getLimitLoveDay() {
+        DateTime current = new DateTime();
         List<Integer> list = new ArrayList<>();
         // 周年
         list.add(current.year() - 2020);
@@ -51,6 +51,7 @@ public class DateUtils {
      * @return
      */
     public static long getLimitBirthday() {
+        DateTime current = new DateTime();
         String birthDay = BirthDayConfig.birthDayMap.get(current.year() + "");
         if (current.toDateStr().equals(birthDay)) {
             return 0;
@@ -67,6 +68,7 @@ public class DateUtils {
      * @return
      */
     public static long getLimitWageDay() {
+        DateTime current = new DateTime();
         // 当前月
         if (current.dayOfMonth() <= 15) {
             return 15 - current.dayOfMonth();
