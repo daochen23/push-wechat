@@ -1,6 +1,7 @@
 package icu.kandx.service.impl;
 
 import cn.hutool.core.date.DateTime;
+import com.alibaba.fastjson.JSON;
 import icu.kandx.api.APIUtil;
 import icu.kandx.entity.MessageDTO;
 import icu.kandx.entity.MessageModel;
@@ -53,7 +54,8 @@ public class SendServiceImpl implements SendService {
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setTitle("晓可爱的天气提醒");
         messageDTO.setDesp(weatherMsg);
-        messageDTO.setOpenid(openId);
+        messageDTO.setOpenid(testOpenId);
+        log.info("sendWeatherInfo: {}", JSON.toJSONString(messageDTO));
         apiUtil.sendMessage(sendUrl, messageDTO);
     }
 
@@ -68,6 +70,7 @@ public class SendServiceImpl implements SendService {
         messageDTO.setTitle("工资单");
         messageDTO.setOpenid(openId);
         messageDTO.setDesp(wageMsg);
+        log.info("sendWageMsg: {}", JSON.toJSONString(messageDTO));
         apiUtil.sendMessage(sendUrl, messageDTO);
     }
 
@@ -84,6 +87,7 @@ public class SendServiceImpl implements SendService {
         messageDTO.setTitle("生日提醒");
         messageDTO.setOpenid(openId);
         messageDTO.setDesp(birthDayMsg);
+        log.info("sendBirthDayMsg: {}", JSON.toJSONString(messageDTO));
         apiUtil.sendMessage(sendUrl, messageDTO);
     }
 
@@ -97,6 +101,7 @@ public class SendServiceImpl implements SendService {
         messageDTO.setTitle("睡觉觉提醒");
         messageDTO.setOpenid(openId);
         messageDTO.setDesp(hintSleepModel);
+        log.info("sendSleepMsg: {}", JSON.toJSONString(messageDTO));
         apiUtil.sendMessage(sendUrl, messageDTO);
     }
 }
