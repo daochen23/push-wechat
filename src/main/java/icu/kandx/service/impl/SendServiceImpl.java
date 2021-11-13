@@ -54,7 +54,7 @@ public class SendServiceImpl implements SendService {
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setTitle("晓可爱的天气提醒");
         messageDTO.setDesp(weatherMsg);
-        messageDTO.setOpenid(testOpenId);
+        messageDTO.setOpenid(openId);
         log.info("sendWeatherInfo: {}", JSON.toJSONString(messageDTO));
         apiUtil.sendMessage(sendUrl, messageDTO);
     }
