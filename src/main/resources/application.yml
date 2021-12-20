@@ -2,7 +2,7 @@
 weather:
   appid: 71762167
   appsecret: HStezQb4
-  city: 新郑
+  city: 南京
   url: https://tianqiapi.com/api?appid=${weather.appid}&appsecret=${weather.appsecret}&city=${weather.city}
 
 # server酱

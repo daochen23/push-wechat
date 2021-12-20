@@ -74,7 +74,11 @@ public class DateUtils {
             return 15 - current.dayOfMonth();
         }else {
             // 下个月
-            return DateUtil.betweenDay(current, DateUtil.parse(current.year() + "-" + current.month() + "-" + 15), Boolean.TRUE);
+            int month = 1;
+            if (current.month() != 11) {
+                month = current.month() + 2;
+            }
+            return DateUtil.betweenDay(current, DateUtil.parse(current.year() + "-" + month + "-" + 15), Boolean.TRUE);
         }
     }
 }

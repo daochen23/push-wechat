@@ -68,6 +68,11 @@ public class MainApplicationTests {
 
     @Test
     public void getWageDay() {
+        DateTime dateTime = new DateTime();
+        System.out.println(dateTime.year());
+        int month1 = DateUtil.month(new Date());
+        System.out.println(month1);
+        System.out.println(dateTime.dayOfMonth());
         long limitWageDay = DateUtils.getLimitWageDay();
         System.out.println(limitWageDay);
     }
