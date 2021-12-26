@@ -1,9 +1,8 @@
 # 天气
 weather:
-  appid: 71762167
-  appsecret: HStezQb4
-  city: 南京
-  url: https://tianqiapi.com/api?appid=${weather.appid}&appsecret=${weather.appsecret}&city=${weather.city}
+  key: eba9c707b9d02952e51ae3243fd8d452
+  city: 320114
+  url: https://restapi.amap.com/v3/weather/weatherInfo?key=${weather.key}&city=${weather.city}&extensions=all
 
 # server酱
 server:
@@ -11,3 +10,8 @@ server:
   sendUrl: https://sctapi.ftqq.com/${server.sendKey}.send
   openId: KouShaoDi|QiJiu
   testOpenId: KouShaoDi
+
+life:
+  key: S5MuMEHelx7U-P7az
+  location: nanjing
+  lifeUrl: https://api.seniverse.com/v3/life/suggestion.json?key=${life.key}&location=${life.location}

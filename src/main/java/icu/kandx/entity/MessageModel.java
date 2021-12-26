@@ -18,7 +18,8 @@ public class MessageModel {
             "最高温度: %s\n" +
             "紫外线指数: %s\n" +
             "穿衣指数: %s\n" +
-            "空气污染指数: %s";
+            "感冒指数: %s\n" +
+            "运动指数: %s";
 
     public static String WAGE_MODEL = "宝贝，今天是 %s 预计晚上9点上交工资，请注意查收呦~";
 

@@ -3,8 +3,10 @@ package icu.kandx.service.impl;
 import cn.hutool.core.date.DateTime;
 import com.alibaba.fastjson.JSON;
 import icu.kandx.api.APIUtil;
+import icu.kandx.entity.LifeDTO;
 import icu.kandx.entity.MessageDTO;
 import icu.kandx.entity.MessageModel;
+import icu.kandx.entity.enums.CityEnum;
 import icu.kandx.entity.weather.WeatherEntity;
 import icu.kandx.service.SendService;
 import icu.kandx.util.DateUtils;
@@ -12,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Description:
@@ -36,20 +40,28 @@ public class SendServiceImpl implements SendService {
     @Value("${server.openId}")
     private String openId;
 
+    @Value("${life.lifeUrl}")
+    private String lifeUrl;
+
     @Override
     public void sendWeatherMsg() {
         String weatherMedal = MessageModel.WEATHER_MODEL;
         WeatherEntity weatherInfo = apiUtil.getWeatherInfo(weatherUrl);
-        if (weatherInfo == null) {
+        LifeDTO lifeInfo = apiUtil.getLifeInfo(lifeUrl);
+        if (weatherInfo == null || lifeInfo == null) {
             log.error("[SendService]: getWeatherInfo failed");
             return;
         }
-        WeatherEntity.DataDTO dataDTO = weatherInfo.getData().get(0);
-        String dateTime = dataDTO.getDate() + ", " + dataDTO.getWeek();
-        String weatherMsg = String.format(weatherMedal, dateTime, DateUtils.getLoveDay(), DateUtils.getLimitBirthday(),
-                DateUtils.getLimitLoveDay().get(0), DateUtils.getLimitLoveDay().get(1), DateUtils.getLimitWageDay(), weatherInfo.getCity(), dataDTO.getWea(), dataDTO.getWeaDay(),
-                dataDTO.getWeaNight(), dataDTO.getTem2(), dataDTO.getTem1(), dataDTO.getIndex().get(0).getLevel(),
-                dataDTO.getIndex().get(3).getLevel(), dataDTO.getAirLevel());
+        List<WeatherEntity.ForecastsDTO> forecasts = weatherInfo.getForecasts();
+        List<WeatherEntity.ForecastsDTO.CastsDTO> weatherDTO = forecasts.get(0).getCasts();
+        String cityName = CityEnum.getCityName(Integer.parseInt(forecasts.get(0).getAdcode()));
+        LifeDTO.ResultsDTO.SuggestionDTO suggestion = lifeInfo.getResults().get(0).getSuggestion();
+        String weatherMsg = String.format(weatherMedal, forecasts.get(0).getReporttime(), DateUtils.getLoveDay(),
+                DateUtils.getLimitBirthday(), DateUtils.getLimitLoveDay().get(0), DateUtils.getLimitLoveDay().get(1),
+                DateUtils.getLimitWageDay(), cityName, weatherDTO.get(0).getDayweather(), weatherDTO.get(0).getDayweather(),
+                weatherDTO.get(0).getNightweather(), weatherDTO.get(0).getNighttemp(), weatherDTO.get(0).getDaytemp(),
+                suggestion.getUv().getBrief(), suggestion.getDressing().getBrief(), suggestion.getFlu().getBrief(),
+                suggestion.getSport().getBrief());
         log.info("weatherInfo: {}", weatherMsg);
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setTitle("晓可爱的天气提醒");
