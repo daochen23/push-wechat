@@ -30,7 +30,12 @@ public class DateUtils {
         DateTime current = new DateTime();
         List<Integer> list = new ArrayList<>();
         // 周年
-        list.add(current.year() - 2020);
+        if (current.month() >= 11 && current.dayOfMonth() > 12) {
+            list.add(current.year() + 1 - 2020);
+        }else {
+            list.add(current.year() - 2020);
+        }
+
         if (current.toDateStr().equals(DateUtil.parse(current.year() + "-12-12"))) {
             list.add(0);
             return list;
