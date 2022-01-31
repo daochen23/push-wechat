@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import icu.kandx.api.APIUtil;
+import icu.kandx.entity.WeChatTokenDTO;
 import icu.kandx.entity.weather.WeatherEntity;
 import icu.kandx.service.SendService;
 import icu.kandx.util.DateUtils;
@@ -42,6 +43,9 @@ public class MainApplicationTests {
 
     @Autowired
     private SendService service;
+
+    @Value("${wechat.tokenUrl}")
+    private String tokenUrl;
 
     @Test
     public void getWeatherInfo() {
@@ -90,5 +94,11 @@ public class MainApplicationTests {
         DateTime dateTime = new DateTime(parse);
         boolean after = dateTime.after(DateUtil.parse("2022-02-09"));
         System.out.println(after);
+    }
+
+    @Test
+    public void getToken() {
+        WeChatTokenDTO weChatToken = apiUtil.getWeChatToken(tokenUrl);
+        System.out.println(weChatToken.getAccessToken());
     }
 }

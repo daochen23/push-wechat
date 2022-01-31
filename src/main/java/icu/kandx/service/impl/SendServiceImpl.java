@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateTime;
 import com.alibaba.fastjson.JSON;
 import icu.kandx.api.APIUtil;
 import icu.kandx.entity.LifeDTO;
+import icu.kandx.entity.MessageContent;
 import icu.kandx.entity.MessageDTO;
 import icu.kandx.entity.MessageModel;
 import icu.kandx.entity.enums.CityEnum;
@@ -31,7 +32,7 @@ public class SendServiceImpl implements SendService {
     @Value("${weather.url}")
     private String weatherUrl;
 
-    @Value("${server.sendUrl}")
+    @Value("${wechat.sendUrl}")
     private String sendUrl;
 
     @Value("${server.testOpenId}")
@@ -42,6 +43,12 @@ public class SendServiceImpl implements SendService {
 
     @Value("${life.lifeUrl}")
     private String lifeUrl;
+
+    @Value("${wechat.agentid}")
+    private String agentid;
+
+    @Value("${wechat.tokenUrl}")
+    private String tokenUrl;
 
     @Override
     public void sendWeatherMsg() {
@@ -56,19 +63,22 @@ public class SendServiceImpl implements SendService {
         List<WeatherEntity.ForecastsDTO.CastsDTO> weatherDTO = forecasts.get(0).getCasts();
         String cityName = CityEnum.getCityName(Integer.parseInt(forecasts.get(0).getAdcode()));
         LifeDTO.ResultsDTO.SuggestionDTO suggestion = lifeInfo.getResults().get(0).getSuggestion();
-        String weatherMsg = String.format(weatherMedal, forecasts.get(0).getReporttime(), DateUtils.getLoveDay(),
+        String message = String.format(weatherMedal, forecasts.get(0).getReporttime(), DateUtils.getLoveDay(),
                 DateUtils.getLimitBirthday(), DateUtils.getLimitLoveDay().get(0), DateUtils.getLimitLoveDay().get(1),
                 DateUtils.getLimitWageDay(), cityName, weatherDTO.get(0).getDayweather(), weatherDTO.get(0).getDayweather(),
                 weatherDTO.get(0).getNightweather(), weatherDTO.get(0).getNighttemp(), weatherDTO.get(0).getDaytemp(),
                 suggestion.getUv().getBrief(), suggestion.getDressing().getBrief(), suggestion.getFlu().getBrief(),
                 suggestion.getSport().getBrief());
-        log.info("weatherInfo: {}", weatherMsg);
+        log.info("weatherInfo: {}", message);
         MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setTitle("晓可爱的天气提醒");
-        messageDTO.setDesp(weatherMsg);
-        messageDTO.setOpenid(openId);
+        messageDTO.setAgentid(Integer.parseInt(agentid));
+        MessageContent content = new MessageContent();
+        content.setContent(message);
+        messageDTO.setText(content);
+        messageDTO.setTouser("@" + openId);
         log.info("sendWeatherInfo: {}", JSON.toJSONString(messageDTO));
-        apiUtil.sendMessage(sendUrl, messageDTO);
+        String url = sendUrl + apiUtil.getWeChatToken(tokenUrl).getAccessToken();
+        apiUtil.sendMessage(url, messageDTO);
     }
 
     /**
@@ -77,11 +87,12 @@ public class SendServiceImpl implements SendService {
     @Override
     public void sendWageMsg() {
         String wageMedal = MessageModel.WAGE_MODEL;
-        String wageMsg = String.format(wageMedal, new DateTime().toDateStr());
+        String message = String.format(wageMedal, new DateTime().toDateStr());
         MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setTitle("工资单");
-        messageDTO.setOpenid(openId);
-        messageDTO.setDesp(wageMsg);
+        messageDTO.setAgentid(Integer.parseInt(agentid));
+        MessageContent content = new MessageContent();
+        content.setContent(message);
+        messageDTO.setTouser("@" + openId);
         log.info("sendWageMsg: {}", JSON.toJSONString(messageDTO));
         apiUtil.sendMessage(sendUrl, messageDTO);
     }
@@ -94,11 +105,12 @@ public class SendServiceImpl implements SendService {
         DateTime current = new DateTime();
         int num = current.year() - 1999;
         String birthdayModel = MessageModel.BIRTHDAY_MODEL;
-        String birthDayMsg = String.format(birthdayModel, num);
+        String message = String.format(birthdayModel, num);
         MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setTitle("生日提醒");
-        messageDTO.setOpenid(openId);
-        messageDTO.setDesp(birthDayMsg);
+        messageDTO.setAgentid(Integer.parseInt(agentid));
+        MessageContent content = new MessageContent();
+        content.setContent(message);
+        messageDTO.setTouser("@" + openId);
         log.info("sendBirthDayMsg: {}", JSON.toJSONString(messageDTO));
         apiUtil.sendMessage(sendUrl, messageDTO);
     }
@@ -108,11 +120,12 @@ public class SendServiceImpl implements SendService {
      */
     @Override
     public void sendSleepMsg() {
-        String hintSleepModel = MessageModel.HINT_SLEEP_MODEL;
+        String message = MessageModel.HINT_SLEEP_MODEL;
         MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setTitle("睡觉觉提醒");
-        messageDTO.setOpenid(openId);
-        messageDTO.setDesp(hintSleepModel);
+        messageDTO.setAgentid(Integer.parseInt(agentid));
+        MessageContent content = new MessageContent();
+        content.setContent(message);
+        messageDTO.setTouser("@" + openId);
         log.info("sendSleepMsg: {}", JSON.toJSONString(messageDTO));
         apiUtil.sendMessage(sendUrl, messageDTO);
     }

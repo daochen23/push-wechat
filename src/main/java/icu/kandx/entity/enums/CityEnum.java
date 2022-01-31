@@ -6,7 +6,8 @@ package icu.kandx.entity.enums;
  * @Date 2021/12/26 15:49
  */
 public enum CityEnum {
-    YU_HUA_TAI(320114, "南京市 雨花台区");
+    YU_HUA_TAI(320114, "南京市 雨花台区"),
+    NAN_LE(410923, "濮阳市 南乐县");
     private int code;
 
     private String msg;

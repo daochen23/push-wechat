@@ -1,17 +1,27 @@
-# 天气
+# 天气(高德)
 weather:
   key: eba9c707b9d02952e51ae3243fd8d452
-  city: 320114
+  city: 410923
   url: https://restapi.amap.com/v3/weather/weatherInfo?key=${weather.key}&city=${weather.city}&extensions=all
 
 # server酱
 server:
   sendKey: SCT78623Trf7qDygXpJPCb1XV7TbpCFjM
   sendUrl: https://sctapi.ftqq.com/${server.sendKey}.send
-  openId: KouShaoDi|QiJiu
+  openId: all
   testOpenId: KouShaoDi
 
 life:
   key: S5MuMEHelx7U-P7az
   location: nanjing
   lifeUrl: https://api.seniverse.com/v3/life/suggestion.json?key=${life.key}&location=${life.location}
+
+# 企业微信
+wechat:
+  corpid: ww15c09a84ef751c1e # 企业微信id
+  corpsecret: dK9b8NRoI-z-0_kJG3JMHct14sZyvAtd4zq315vinzU # 应用信息
+  # 发送通知的接口
+  sendUrl: https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=
+  # 企业应用的id
+  agentid: 1000002
+  tokenUrl: https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${wechat.corpid}&corpsecret=${wechat.corpsecret}

@@ -12,17 +12,21 @@ import lombok.ToString;
 @ToString
 public class MessageDTO {
     /**
-     * 标题
-     */
-    private String title;
-
-    /**
-     * 消息内容支持markdown
-     */
-    private String desp;
-
-    /**
      * 接受方可以是多个用 “|”隔开
      */
-    private String openid;
+    private String touser;
+
+    /**
+     * 消息类型 这里写死markdown
+     */
+    private String msgtype = "text";
+
+    /**
+     * 企业应用的id
+     */
+    private Integer agentid;
+
+    private MessageContent text;
+
+
 }
