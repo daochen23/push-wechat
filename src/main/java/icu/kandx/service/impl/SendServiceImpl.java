@@ -94,7 +94,8 @@ public class SendServiceImpl implements SendService {
         content.setContent(message);
         messageDTO.setTouser("@" + openId);
         log.info("sendWageMsg: {}", JSON.toJSONString(messageDTO));
-        apiUtil.sendMessage(sendUrl, messageDTO);
+        String url = sendUrl + apiUtil.getWeChatToken(tokenUrl).getAccessToken();
+        apiUtil.sendMessage(url, messageDTO);
     }
 
     /**
@@ -112,7 +113,8 @@ public class SendServiceImpl implements SendService {
         content.setContent(message);
         messageDTO.setTouser("@" + openId);
         log.info("sendBirthDayMsg: {}", JSON.toJSONString(messageDTO));
-        apiUtil.sendMessage(sendUrl, messageDTO);
+        String url = sendUrl + apiUtil.getWeChatToken(tokenUrl).getAccessToken();
+        apiUtil.sendMessage(url, messageDTO);
     }
 
     /**
@@ -127,6 +129,7 @@ public class SendServiceImpl implements SendService {
         content.setContent(message);
         messageDTO.setTouser("@" + openId);
         log.info("sendSleepMsg: {}", JSON.toJSONString(messageDTO));
-        apiUtil.sendMessage(sendUrl, messageDTO);
+        String url = sendUrl + apiUtil.getWeChatToken(tokenUrl).getAccessToken();
+        apiUtil.sendMessage(url, messageDTO);
     }
 }
